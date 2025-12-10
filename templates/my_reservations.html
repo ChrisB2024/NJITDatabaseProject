@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}My Reservations - Flight Booking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">📋 My Reservations</h3>
+            </div>
+            <div class="card-body p-4">
+                {% if reservations %}
+                    {% for reservation in reservations %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title mb-2">
+                                        <span class="badge bg-primary">{{ reservation.flight.flight_number }}</span>
+                                        {{ reservation.flight.airline.name if reservation.flight.airline else 'N/A' }}
+                                        {% if reservation.status == 'CANCELED' %}
+                                            <span class="badge bg-danger">CANCELLED</span>
+                                        {% elif reservation.status == 'ACTIVE' %}
+                                            <span class="badge bg-success">ACTIVE</span>
+                                        {% elif reservation.status == 'RESCHEDULED' %}
+                                            <span class="badge bg-warning">RESCHEDULED</span>
+                                        {% endif %}
+                                    </h5>
+                                    
+                                    <p class="mb-1">
+                                        <strong>Route:</strong> 
+                                        {{ reservation.flight.origin }} → {{ reservation.flight.destination }}
+                                    </p>
+                                    
+                                    <p class="mb-1">
+                                        <strong>Departure:</strong> 
+                                        {{ reservation.flight.departure_time.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </p>
+                                    
+                                    <p class="mb-1">
+                                        <strong>Seat:</strong> 
+                                        {{ reservation.seat_number }} ({{ reservation.seat_class }})
+                                    </p>
+                                    
+                                    <p class="mb-1">
+                                        <strong>Booking Date:</strong> 
+                                        {{ reservation.booking_date.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </p>
+                                    
+                                    <p class="mb-0">
+                                        <strong>Ticket Number:</strong> 
+                                        <code>{{ reservation.ticket_number }}</code>
+                                    </p>
+                                </div>
+                                
+                                <div class="col-md-4 text-end">
+                                    <h4 class="text-success mb-3">
+                                        ${{ "%.2f"|format(reservation.price) }}
+                                    </h4>
+                                    
+                                    {% if reservation.status == 'ACTIVE' %}
+                                        <p class="text-muted small mb-2">Active ticket</p>
+                                        <!-- Future: Add cancel functionality if needed -->
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <h5 class="text-muted mb-3">No reservations found</h5>
+                        <p class="text-muted mb-4">You haven't made any flight reservations yet.</p>
+                        <a href="{{ url_for('user.search') }}" class="btn btn-primary">
+                            Search for Flights
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

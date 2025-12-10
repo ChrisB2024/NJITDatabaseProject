@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Flight Booking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">👤 My Profile</h3>
+            </div>
+            <div class="card-body p-4">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Username:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.username }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Full Name:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.email }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Phone:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.phone if user.phone else 'Not provided' }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Date of Birth:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.date_of_birth.strftime('%B %d, %Y') if user.date_of_birth else 'Not provided' }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Nationality:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.nationality if user.nationality else 'Not provided' }}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">
+                        <strong>Total Tickets:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ user.tickets|length }}
+                    </div>
+                </div>
+                
+                <div class="mt-4 d-grid gap-2">
+                    <a href="{{ url_for('user.my_reservations') }}" class="btn btn-primary">
+                        View My Reservations
+                    </a>
+                    <a href="{{ url_for('user.search') }}" class="btn btn-outline-primary">
+                        Search Flights
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

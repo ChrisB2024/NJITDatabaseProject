@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Reserve Flight - Flight Booking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">✈️ Book Your Flight</h3>
+            </div>
+            <div class="card-body p-4">
+                <!-- Flight Details -->
+                <div class="alert alert-info">
+                    <h5 class="mb-3">Flight Details</h5>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Flight Number:</strong></div>
+                        <div class="col-6">{{ flight.flight_number }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Airline:</strong></div>
+                        <div class="col-6">{{ flight.airline.name if flight.airline else 'N/A' }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Route:</strong></div>
+                        <div class="col-6">{{ flight.origin }} → {{ flight.destination }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Departure:</strong></div>
+                        <div class="col-6">{{ flight.departure_time.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Arrival:</strong></div>
+                        <div class="col-6">{{ flight.arrival_time.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6"><strong>Price per passenger:</strong></div>
+                        <div class="col-6"><strong class="text-success">${{ "%.2f"|format(flight.price) }}</strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><strong>Available Seats:</strong></div>
+                        <div class="col-6">{{ flight.available_seats }}</div>
+                    </div>
+                </div>
+                
+                <!-- Reservation Form -->
+                <form method="POST" action="{{ url_for('user.reserve', flight_number=flight.flight_number) }}" id="reservationForm">
+                    <div class="mb-3">
+                        <label for="num_passengers" class="form-label">Number of Passengers *</label>
+                        <input type="number" class="form-control" id="num_passengers" name="num_passengers" 
+                               min="1" max="{{ flight.available_seats }}" value="1" required>
+                        <small class="form-text text-muted">Maximum {{ flight.available_seats }} passengers</small>
+                    </div>
+                    
+                    <div class="alert alert-secondary">
+                        <div class="row">
+                            <div class="col-6"><strong>Total Cost:</strong></div>
+                            <div class="col-6 text-end">
+                                <strong class="text-success" id="totalCost">${{ "%.2f"|format(flight.price) }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Confirm Booking</button>
+                        <a href="{{ url_for('user.search') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Update total cost when number of passengers changes
+    const pricePerPassenger = parseFloat("{{ flight.price }}");
+    const numPassengersInput = document.getElementById('num_passengers');
+    const totalCostDisplay = document.getElementById('totalCost');
+    
+    numPassengersInput.addEventListener('input', function() {
+        const numPassengers = parseInt(this.value) || 1;
+        const totalCost = pricePerPassenger * numPassengers;
+        totalCostDisplay.textContent = '$' + totalCost.toFixed(2);
+    });
+</script>
+{% endblock %}

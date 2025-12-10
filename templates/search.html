@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Search Flights - Flight Booking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card mb-4">
+            <div class="card-header text-center">
+                <h3 class="mb-0">🔍 Search Flights</h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('user.search') }}">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="origin" class="form-label">From (Origin)</label>
+                            <input type="text" class="form-control" id="origin" name="origin" 
+                                   placeholder="e.g., New York" value="{{ request.form.get('origin', '') }}">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="destination" class="form-label">To (Destination)</label>
+                            <input type="text" class="form-control" id="destination" name="destination" 
+                                   placeholder="e.g., Los Angeles" value="{{ request.form.get('destination', '') }}">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="date" class="form-label">Departure Date</label>
+                            <input type="date" class="form-control" id="date" name="date" 
+                                   value="{{ request.form.get('date', '') }}">
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Search Flights</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Search Results -->
+        {% if search_performed %}
+            {% if flights %}
+                <h4 class="text-white mb-3">Available Flights ({{ flights|length }} found)</h4>
+                {% for flight in flights %}
+                <div class="card flight-card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="card-title mb-1">
+                                    <span class="badge bg-primary">{{ flight.flight_number }}</span>
+                                    {{ flight.airline.name if flight.airline else 'N/A' }}
+                                </h5>
+                                <p class="mb-2">
+                                    <strong>{{ flight.origin }}</strong> 
+                                    <span class="text-muted">→</span> 
+                                    <strong>{{ flight.destination }}</strong>
+                                </p>
+                                <p class="mb-1 text-muted">
+                                    🛫 Departure: {{ flight.departure_time.strftime('%B %d, %Y at %I:%M %p') }}
+                                </p>
+                                <p class="mb-1 text-muted">
+                                    🛬 Arrival: {{ flight.arrival_time.strftime('%B %d, %Y at %I:%M %p') }}
+                                </p>
+                                <p class="mb-0">
+                                    <span class="badge bg-success">{{ flight.available_seats }} seats available</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <h3 class="text-primary mb-3">${{ "%.2f"|format(flight.price) }}</h3>
+                                <a href="{{ url_for('user.reserve', flight_number=flight.flight_number) }}" 
+                                   class="btn btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

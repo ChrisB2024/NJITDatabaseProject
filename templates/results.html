@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Flight Results - Flight Booking{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">✈️ Available Flights</h3>
+            </div>
+            <div class="card-body p-4">
+                {% if flights %}
+                    <p class="text-muted mb-4">Showing {{ flights|length }} available flights</p>
+                    
+                    {% for flight in flights %}
+                    <div class="card flight-card mb-3">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="card-title mb-1">
+                                        <span class="badge bg-primary">{{ flight.flight_number }}</span>
+                                        {{ flight.airline.name if flight.airline else 'N/A' }}
+                                    </h5>
+                                    <p class="mb-2">
+                                        <strong>{{ flight.origin }}</strong> 
+                                        <span class="text-muted">→</span> 
+                                        <strong>{{ flight.destination }}</strong>
+                                    </p>
+                                    <p class="mb-1 text-muted">
+                                        🛫 {{ flight.departure_time.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </p>
+                                    <p class="mb-1 text-muted">
+                                        🛬 {{ flight.arrival_time.strftime('%B %d, %Y at %I:%M %p') }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <span class="badge bg-success">{{ flight.available_seats }} seats available</span>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <h3 class="text-primary mb-3">${{ "%.2f"|format(flight.price) }}</h3>
+                                    <a href="{{ url_for('user.reserve', flight_number=flight.flight_number) }}" 
+                                       class="btn btn-primary">Book Flight</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <h5 class="text-muted mb-3">No flights available</h5>
+                        <p class="text-muted">Please check back later for available flights.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
