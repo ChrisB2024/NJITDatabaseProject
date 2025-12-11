@@ -30,16 +30,33 @@ A Fla5. **Access:** http://127.0.0.1:5000
    pip install -r requirements.txt
    ```
 
-3. **Connect to NJIT VPN** (Required to access the database!)
+3. **Configure Oracle Database Connection:**
+   
+   ⚠️ **IMPORTANT:** The repository contains `oracle_config_template.py` as a template. You need to create your own configuration file:
+   
+   ```bash
+   # Copy the template to create your config file
+   cp oracle_config_template.py oracle_config.py
+   ```
+   
+   Then edit `oracle_config.py` and add your Oracle database credentials:
+   ```python
+   ORACLE_USERNAME = "your_username_here"   # Your NJIT Oracle schema name
+   ORACLE_PASSWORD = "your_password_here"   # Your Oracle password
+   ```
+   
+   **Note:** `oracle_config.py` is in `.gitignore` and will not be committed to prevent exposing credentials.
 
-4. **Run the application:**
+4. **Connect to NJIT VPN** (Required to access the database!)
+
+5. **Run the application:**
    ```bash
    python app.py
    ```
 
-5. **Access:** http://127.0.0.1:5000
+6. **Access:** http://127.0.0.1:5000
 
-4. **Login** with any passenger email:
+7. **Login** with any passenger email:
    - ayo@example.com
    - jwest@example.com  
    - maria@example.com
@@ -52,7 +69,8 @@ A Fla5. **Access:** http://127.0.0.1:5000
 
 - `app.py` - Main Flask application
 - `models.py` - Database models (Passenger, Flight, Ticket, etc.)
-- `oracle_config.py` - Oracle database connection
+- `oracle_config_template.py` - Template for Oracle database connection (copy to `oracle_config.py`)
+- `oracle_config.py` - Your actual Oracle credentials (not in git, create from template)
 - `auth_routes.py` - Login/Register routes
 - `user_routes.py` - Search/Book/Reservations routes
 - `templates/` - HTML templates
