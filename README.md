@@ -1,15 +1,16 @@
-# Flight Booking System
+# Flight Booking System - User Management Interface
 
-A Fla5. **Access:** http://127.0.0.1:5000
+**CS 331 Database Systems - Group 14**
 
-6. **Login** with any passenger email:
-   - ayo@example.com
-   - jwest@example.com  
-   - maria@example.com
-   - lchen@example.com
-   - samir@example.com
-   
-   (Any password works - authentication temporarily disabled)lication for managing flight bookings, connected to an Oracle database at NJIT.
+A Flask-based web application for managing flight bookings, connected to an Oracle database at NJIT.
+
+## Project Component
+
+This repository contains the **User Management Interface** for the Flight Booking Database project, including:
+- User authentication (login/register)
+- Passenger profile management
+- Flight search and booking
+- Reservation management
 
 ## Setup & Run
 
