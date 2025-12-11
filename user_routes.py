@@ -159,8 +159,8 @@ def my_reservations():
     My Tickets/Reservations Page
     Displays all tickets for the current passenger
     """
-    tickets = Ticket.query.filter_by(passenger_id=current_user.passenger_id).order_by(Ticket.booking_date.desc()).all()
-    return render_template('my_reservations.html', tickets=tickets)
+    reservations = Ticket.query.filter_by(passenger_id=current_user.passenger_id).order_by(Ticket.booking_date.desc()).all()
+    return render_template('my_reservations.html', reservations=reservations)
 
 
 @user_bp.route('/cancel-ticket/<int:ticket_number>', methods=['POST'])
