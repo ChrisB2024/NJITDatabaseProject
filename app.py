@@ -58,8 +58,5 @@ if __name__ == '__main__':
     print(f"🔗 Database: course (SID)")
     print("="*60 + "\n")
     
-    # Note: We don't run init_db() because your tables already exist in Oracle!
-    # The Flask app will connect to your existing data
-    
     # Run the application
     app.run(debug=True, port=5000)
