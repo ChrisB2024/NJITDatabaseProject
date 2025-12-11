@@ -1,8 +1,3 @@
-"""
-Flask Application configured for Oracle Database
-This version connects to your existing Oracle database with flight booking data
-"""
-
 from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager, login_required, current_user
 from models import db, Passenger  # Use Oracle models
