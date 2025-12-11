@@ -1,17 +1,43 @@
 # Flight Booking System
 
-A Flask web application for managing flight bookings, connected to an Oracle database at NJIT.
+A Fla5. **Access:** http://127.0.0.1:5000
+
+6. **Login** with any passenger email:
+   - ayo@example.com
+   - jwest@example.com  
+   - maria@example.com
+   - lchen@example.com
+   - samir@example.com
+   
+   (Any password works - authentication temporarily disabled)lication for managing flight bookings, connected to an Oracle database at NJIT.
 
 ## Setup & Run
 
-1. **Connect to NJIT VPN** (Required!)
-
-2. **Run the application:**
+1. **Create and activate a virtual environment:**
    ```bash
-   python3.13 app.py
+   # Create virtual environment
+   python3 -m venv .venv
+   
+   # Activate it (macOS/Linux)
+   source .venv/bin/activate
+   
+   # Activate it (Windows)
+   .venv\Scripts\activate
    ```
 
-3. **Access:** http://127.0.0.1:5000
+2. **Install required packages:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Connect to NJIT VPN** (Required to access the database!)
+
+4. **Run the application:**
+   ```bash
+   python app.py
+   ```
+
+5. **Access:** http://127.0.0.1:5000
 
 4. **Login** with any passenger email:
    - ayo@example.com
